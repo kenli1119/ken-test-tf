@@ -1,3 +1,11 @@
+variable "customer" {
+	default = "nl"
+}
+variable "snsname" {
+	default = 
+}
+#----------------------------------------------------------------------------
+#config log to s3
 
 resource "aws_config_configuration_recorder" "recorder" {
   name     = "ConfigMonitor"
@@ -33,7 +41,7 @@ resource "aws_config_delivery_channel" "chanel" {
   depends_on     = [aws_config_configuration_recorder.recorder]
 }
 resource "aws_s3_bucket" "config-s3" {
-  bucket        = "config-log-bucket"
+  bucket        = "config-log-${var.customer}"
   force_destroy = true
 }
 resource "aws_iam_role_policy" "config-policy" {
@@ -58,3 +66,29 @@ resource "aws_iam_role_policy" "config-policy" {
 }
 POLICY
 }
+
+#-------------------------------------------------------------------------
+# event
+
+resource "aws_cloudwatch_event_rule" "config-event" {
+  name        = "ConfigNotification"
+  description = "Notification on Config ."
+
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.config"
+  ],
+  "detail-type": [
+    "Config Configuration Item Change"
+  ]
+}
+PATTERN
+
+}
+
+resource "aws_cloudwatch_event_target" "config-sns" {
+  rule = aws_cloudwatch_event_rule.config-event.name
+  arn  = var.snsname
+}
+
