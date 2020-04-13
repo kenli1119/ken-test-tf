@@ -1,19 +1,19 @@
 provider "aws" {
+	access_key = var.access_key
+	secret_key = var.secret_key
+	region = var.region
 }
 
-# --------------------------------------------
-# variable
-
-variable "customer" {
-}
-variable "ec2-tagname" {
-}
 
 # -------------------------------------------
 # sns
 
-data "aws_sns_topic" "sns-nl" {
-  name         = var.snsname
+resource "aws_sns_topic" "sns-nl" {
+	name = var.snsname
+	tags {
+		name = "terraform"
+		values = "nl"
+	}
 }
 
 # --------------------------------------------------------------------

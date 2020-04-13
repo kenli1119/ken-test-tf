@@ -1,0 +1,5 @@
+variable "customer" {
+}
+variable "ec2-tagname" {
+}
+
