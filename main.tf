@@ -7,7 +7,7 @@ provider "aws" {
 # sns
 
 resource "aws_sns_topic" "sns-nl" {
-	name = var.snsname
+	name = var.customer-Notification
 	tags {
 		name = "terraform"
 		values = "nl"
