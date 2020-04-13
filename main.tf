@@ -8,9 +8,8 @@ provider "aws" {
 
 resource "aws_sns_topic" "sns-nl" {
 	name = "${var.customer}-Notification"
-	tags {
-		name = "terraform"
-		values = "nl"
+	tags = {
+		terraform = "nl"
 	}
 }
 
