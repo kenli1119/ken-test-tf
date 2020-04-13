@@ -1,8 +1,8 @@
 variable "region" {
 }
 variable "customer" {
-	type = "string"
+	type = string
 }
 variable "ec2-tagname" {
-	type = "string"
+	type = string
 }
